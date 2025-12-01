@@ -33,12 +33,13 @@ export async function GET() {
       status: 'success',
       message: 'Audit logs retrieved successfully',
       payload: auditLogs
-    }, { status: 200 });
-
-    // Add CORS headers
-    response.headers.set('Access-Control-Allow-Origin', 'https://esbe-test.fa.em8.oraclecloud.com');
-    response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    }, { 
+    status: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': '*',
+    }});
 
     return response;
   } catch (err) {
@@ -60,27 +61,36 @@ export async function POST(req) {
     auditLogs.push(body);
     console.log("Body====>",JSON.stringify(body));
 
-    const response = NextResponse.json({status: 'success', message: 'expense successfully received', payload: auditLogs}, { status: 200 });
+    const response = NextResponse.json({status: 'success', message: 'expense successfully received', payload: auditLogs}, { 
+    status: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': '*',
+    }});
 
-    // Add CORS headers
-    response.headers.set('Access-Control-Allow-Origin', 'https://esbe-test.fa.em8.oraclecloud.com');
-    response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
     return response;
   }catch(err){
     console.log(err);
-    return NextResponse.json({ status: 'error', message: 'Failed to create expense', payload: auditLogs }, { status: 500 });
+    return NextResponse.json({ status: 'error', message: 'Failed to create expense', payload: auditLogs }, { 
+    status: 500,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+       'Access-Control-Allow-Headers': '*',
+    }});
   }
 }
 
 export async function OPTIONS() {
-  const response = new NextResponse(null, { status: 200 });
-
-  // Add CORS headers for preflight requests
-  response.headers.set('Access-Control-Allow-Origin', 'https://esbe-test.fa.em8.oraclecloud.com');
-  response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  const response = new NextResponse(null, { 
+    status: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+       'Access-Control-Allow-Headers': '*',
+    }});
 
   return response;
 }
