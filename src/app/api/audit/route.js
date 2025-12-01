@@ -29,11 +29,18 @@ let auditLogs = [
 
 export async function GET() {
   try {
-    return NextResponse.json({
+    const response = NextResponse.json({
       status: 'success',
       message: 'Audit logs retrieved successfully',
       payload: auditLogs
     }, { status: 200 });
+
+    // Add CORS headers
+    response.headers.set('Access-Control-Allow-Origin', '*');
+    response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+    return response;
   } catch (err) {
     console.log(err);
     return NextResponse.json({
@@ -53,9 +60,27 @@ export async function POST(req) {
     auditLogs.push(body);
     console.log("Body====>",JSON.stringify(body));
 
-    return NextResponse.json({status: 'success', message: 'expense successfully received', payload: auditLogs}, { status: 200 });
+    const response = NextResponse.json({status: 'success', message: 'expense successfully received', payload: auditLogs}, { status: 200 });
+
+    // Add CORS headers
+    response.headers.set('Access-Control-Allow-Origin', '*');
+    response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+    return response;
   }catch(err){
     console.log(err);
     return NextResponse.json({ status: 'error', message: 'Failed to create expense', payload: auditLogs }, { status: 500 });
   }
+}
+
+export async function OPTIONS() {
+  const response = new NextResponse(null, { status: 200 });
+
+  // Add CORS headers for preflight requests
+  response.headers.set('Access-Control-Allow-Origin', '*');
+  response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+  return response;
 }
