@@ -27,7 +27,7 @@ let auditLogs = [
 ]
 
 
-export async function GET(req) {
+export async function GET() {
   try {
     return NextResponse.json({
       status: 'success',
